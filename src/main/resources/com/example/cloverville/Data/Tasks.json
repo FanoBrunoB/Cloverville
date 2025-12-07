@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "title": "Task 1",
+    "status": "Open",
+    "deadline": "12/12/2026",
+    "greenActionAssigned": 1,
+    "residentAssigned": 3
+  },
+  {
+    "id": 2,
+    "title": "Task 2",
+    "status": "In progress",
+    "deadline": "12/12/2026",
+    "greenActionAssigned": 3,
+    "residentAssigned": 2
+  },
+  {
+    "id": 3,
+    "title": "Task 3",
+    "status": "Completed",
+    "deadline": "12/12/2026",
+    "greenActionAssigned": 1,
+    "residentAssigned": 1
+  }
+]
