@@ -75,6 +75,14 @@
                   <TableColumn fx:id="residentColumn" minWidth="0.0" prefWidth="150.0" text="Resident Assigned" />
                </columns>
             </TableView>
+            <TableView fx:id="productsTable" layoutX="18.0" layoutY="13.0" prefHeight="398.0" prefWidth="457.0" visible="false">
+               <columns>
+                  <TableColumn fx:id="namePColumn" prefWidth="120.0" text="Name" />
+                  <TableColumn fx:id="descriptionPColumn" minWidth="0.0" prefWidth="185.0" text="Description" />
+                  <TableColumn fx:id="pricePColumn" prefWidth="75.0" text="Price" />
+                  <TableColumn fx:id="stockPColumn" prefWidth="75.0" text="Stock" />
+               </columns>
+            </TableView>
             </children>
         </Pane>
         <Text fx:id="tile" fill="#145636" layoutX="135.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Residents" wrappingWidth="214.21630859375">

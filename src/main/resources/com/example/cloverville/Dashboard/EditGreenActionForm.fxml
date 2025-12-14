@@ -26,7 +26,7 @@
             <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#onCancel" prefHeight="26.0" prefWidth="80.0" text="Cancel" GridPane.rowIndex="1" />
          </children>
       </GridPane>
-      <Text layoutX="102.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Edit Green Activity">
+      <Text layoutX="108.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Edit Green Action">
          <font>
             <Font name="System Bold" size="24.0" />
          </font>
@@ -52,7 +52,7 @@
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Description:" wrappingWidth="88.4228515625" GridPane.rowIndex="2" />
          </children>
       </GridPane>
-      <SVGPath fx:id="deleteButton" content="M0 15L13 3L16.25 6L3.25 18H0V15ZM14.0833 2L16.25 0L19.5 3L17.3323 5.001L14.0833 2Z" fill="#16653e" layoutX="366.0" layoutY="5.0" onMouseClicked="#removeGreenAction" style="-fx-scale-x: 0.8; -fx-scale-y: 0.8;" />
+      <SVGPath fx:id="deleteButton" content="M6 8v16c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V8H6zM24 4h-6c0-.6-.4-1-1-1h-4c-.6 0-1 .4-1 1H6C5.4 4 5 4.4 5 5s.4 1 1 1h18c.6 0 1-.4 1-1S24.6 4 24 4z" fill="#16653e" layoutX="361.0" onMouseClicked="#onDelete" style="-fx-scale-x: 0.8; -fx-scale-y: 0.8;" />
    </children>
 
 </AnchorPane>

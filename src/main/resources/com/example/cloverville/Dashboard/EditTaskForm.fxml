@@ -24,7 +24,7 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <Button fx:id="saveButton" mnemonicParsing="false" onAction="#createGreenAction" prefHeight="26.0" prefWidth="80.0" text="Update" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Button fx:id="saveButton" mnemonicParsing="false" onAction="#updateTask" prefHeight="26.0" prefWidth="80.0" text="Update" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#onCancel" prefHeight="26.0" prefWidth="80.0" text="Cancel" GridPane.rowIndex="1" />
          </children>
       </GridPane>
@@ -51,18 +51,18 @@
          </rowConstraints>
          <children>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Title:" wrappingWidth="88.4228515625" />
-            <TextField fx:id="newGreenActionTitle" GridPane.rowIndex="1" />
+            <TextField fx:id="taskTitle" GridPane.rowIndex="1" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Deadline:" wrappingWidth="88.4228515625" GridPane.rowIndex="4" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Status:" wrappingWidth="88.4228515625" GridPane.rowIndex="2" />
-            <ChoiceBox prefHeight="26.0" prefWidth="238.0" GridPane.rowIndex="3" />
-            <DatePicker prefHeight="26.0" prefWidth="225.0" GridPane.rowIndex="5" />
-            <ChoiceBox prefHeight="26.0" prefWidth="238.0" GridPane.rowIndex="7" />
-            <ChoiceBox prefHeight="26.0" prefWidth="238.0" GridPane.rowIndex="9" />
+            <ChoiceBox fx:id="statusChoiceBox" prefHeight="26.0" prefWidth="238.0" GridPane.rowIndex="3" />
+            <DatePicker fx:id="taskDeadline" prefHeight="26.0" prefWidth="225.0" GridPane.rowIndex="5" />
+            <ChoiceBox fx:id="greenActionChoiceBox" disable="true" prefHeight="26.0" prefWidth="238.0" GridPane.rowIndex="7" />
+            <ChoiceBox fx:id="residentChoiceBox" prefHeight="26.0" prefWidth="238.0" GridPane.rowIndex="9" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Green action:" wrappingWidth="88.4228515625" GridPane.rowIndex="6" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Resident:" wrappingWidth="88.4228515625" GridPane.rowIndex="8" />
          </children>
       </GridPane>
-      <SVGPath fx:id="deleteButton" content="M0 15L13 3L16.25 6L3.25 18H0V15ZM14.0833 2L16.25 0L19.5 3L17.3323 5.001L14.0833 2Z" fill="#16653e" layoutX="366.0" layoutY="5.0" onMouseClicked="#onEditItem" style="-fx-scale-x: 0.8; -fx-scale-y: 0.8;" />
+      <SVGPath fx:id="deleteButton" content="M6 8v16c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V8H6zM24 4h-6c0-.6-.4-1-1-1h-4c-.6 0-1 .4-1 1H6C5.4 4 5 4.4 5 5s.4 1 1 1h18c.6 0 1-.4 1-1S24.6 4 24 4z" fill="#16653e" layoutX="362.0" layoutY="-1.0" onMouseClicked="#onDelete" style="-fx-scale-x: 0.8; -fx-scale-y: 0.8;" />
    </children>
 
 </AnchorPane>

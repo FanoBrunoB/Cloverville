@@ -12,4 +12,5 @@ module com.example.cloverville {
     opens com.example.cloverville.Resident to javafx.base;
     opens com.example.cloverville.GreenAction to javafx.base;
     opens com.example.cloverville.Task to javafx.base;
+    opens com.example.cloverville.Product to javafx.base;
 }

@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "name": "Carrots",
+    "description": "A pack of carrots",
+    "price": 40,
+    "stock": 8
+  },
+  {
+    "id": 2,
+    "name": "Draft beer",
+    "description": "A barrel of homemade beer from Otto Schneider",
+    "price": 220,
+    "stock": 6
+  },
+  {
+    "id": 3,
+    "name": "Car wash",
+    "description": "Jacob's kids are raising money for a trip by washing cars",
+    "price": 30,
+    "stock": 100
+  }
+]

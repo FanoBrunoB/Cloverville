@@ -172,4 +172,13 @@ public class ResidentService {
     private static String escape(String s) {
         return s.replace("\"", "\\\"");
     }
+
+    public Resident getById(int id) {
+        return residentMap.get(id);
+    }
+
+    public static void removeById(int id) {
+        residentMap.remove(id);
+        saveData();
+    }
 }

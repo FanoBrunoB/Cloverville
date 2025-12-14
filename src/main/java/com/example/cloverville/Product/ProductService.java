@@ -1,27 +1,21 @@
-package com.example.cloverville.GreenAction;
+package com.example.cloverville.Product;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GreenActionService {
+public class ProductService {
 
-    private static final Map<Integer, GreenAction> greenActionsMap = new HashMap<>();
+    private static final Map<Integer, Product> productsMap = new HashMap<>();
 
-    private static final Path dataPath = Paths.get(
-            "src", "main", "resources",
-            "com", "example", "cloverville", "Data", "GreenActivities.json"
-    );
-
-    public GreenActionService(){
+    public ProductService(){
         loadData();
     }
 
-    public Map<Integer, GreenAction> getGreenActionsMap() {
-        return greenActionsMap;
+    public Map<Integer, Product> getProductsMap() {
+        return productsMap;
     }
 
     // Lee un recurso de resources como String
@@ -39,7 +33,7 @@ public class GreenActionService {
     }
 
     private void loadData() {
-        String json = readResourceAsString("/com/example/cloverville/Data/GreenActivities.json");
+        String json = readResourceAsString("/com/example/cloverville/Data/Products.json");
         if (json == null || json.isBlank()) return;
 
         json = json.trim();
@@ -66,14 +60,14 @@ public class GreenActionService {
             if (!obj.startsWith("{")) obj = "{" + obj;
             if (!obj.endsWith("}")) obj = obj + "}";
 
-            GreenAction g = parseGreenAction(obj);
-            if (g != null) {
-                greenActionsMap.put(g.getId(), g);
+            Product p = parseProducts(obj);
+            if (p != null) {
+                productsMap.put(p.getId(), p);
             }
         }
     }
 
-    private GreenAction parseGreenAction(String obj) {
+    private Product parseProducts(String obj) {
         // sacamos llaves
         if (obj.startsWith("{")) obj = obj.substring(1);
         if (obj.endsWith("}")) obj = obj.substring(0, obj.length() - 1);
@@ -81,9 +75,10 @@ public class GreenActionService {
         String[] fields = obj.split(",");
 
         Integer id = null;
-        String title = null;
+        String name = null;
         String description = null;
-        Integer points = null;
+        Integer price = null;
+        Integer stock = null;
 
         for (String field : fields) {
             String[] kv = field.split(":", 2);
@@ -94,11 +89,11 @@ public class GreenActionService {
 
             switch (key) {
                 case "id" -> id = Integer.parseInt(value);
-                case "title" -> {
+                case "name" -> {
                     // quitar comillas
                     if (value.startsWith("\"")) value = value.substring(1);
                     if (value.endsWith("\"")) value = value.substring(0, value.length() - 1);
-                    title = value;
+                    name = value;
                 }
                 case "description" -> {
                     // quitar comillas
@@ -106,71 +101,17 @@ public class GreenActionService {
                     if (value.endsWith("\"")) value = value.substring(0, value.length() - 1);
                     description = value;
                 }
-                case "points" -> points = Integer.parseInt(value);
+                case "price" -> price = Integer.parseInt(value);
+                case "stock" -> stock = Integer.parseInt(value);
             }
         }
 
-        if (id == null || title == null || description == null || points == null) {
+        if (id == null || name == null || description == null || price == null ||  stock == null) {
             System.err.println("No se pudo parsear Resident de: " + obj);
             return null;
         }
 
-        return new GreenAction(id, title, description, points);
+        return new Product(id, name, description, price, stock);
     }
 
-    public static void addGreenAction(GreenAction g) {
-        greenActionsMap.put(g.getId(), g);
-        saveData();
-    }
-
-    public void updateGreenAction(GreenAction g) {
-        greenActionsMap.put(g.getId(), g);
-        saveData();
-    }
-
-    private static void saveData() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("[");
-
-        boolean first = true;
-        for (GreenAction g : greenActionsMap.values()) {
-            if (!first) sb.append(",");
-            first = false;
-
-            sb.append("{")
-                    .append("\"id\":").append(g.getId()).append(",")
-                    .append("\"title\":\"").append(escape(g.getTitle())).append("\",")
-                    .append("\"description\":\"").append(escape(g.getDescription())).append("\",")
-                    .append("\"points\":").append(g.getPoints())
-                    .append("}");
-        }
-
-        sb.append("]");
-
-        try {
-            Files.createDirectories(dataPath.getParent());
-            Files.writeString(
-                    dataPath,
-                    sb.toString(),
-                    StandardCharsets.UTF_8,
-                    StandardOpenOption.CREATE,
-                    StandardOpenOption.TRUNCATE_EXISTING
-            );
-        } catch (IOException e) {
-            throw new RuntimeException("Error escribiendo " + dataPath, e);
-        }
-    }
-
-    private static String escape(String s) {
-        return s.replace("\"", "\\\"");
-    }
-
-    public GreenAction getById(int id) {
-        return greenActionsMap.get(id);
-    }
-
-    public void removeById(int id) {
-        greenActionsMap.remove(id);
-        saveData();
-    }
 }

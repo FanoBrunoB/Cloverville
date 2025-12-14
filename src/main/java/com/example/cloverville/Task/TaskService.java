@@ -1,12 +1,12 @@
 package com.example.cloverville.Task;
 
-import com.example.cloverville.GreenAction.GreenAction;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -53,9 +53,6 @@ public class TaskService {
         if (json.endsWith("]")) {
             json = json.substring(0, json.length() - 1);
         }
-
-        // ahora json es algo como:
-        // {"id":1,"name":"Alice","points":120},{"id":2,"name":"Bob","points":80}
 
         // separamos cada objeto
         if (json.isBlank()) return;
@@ -130,4 +127,58 @@ public class TaskService {
         return new Task(id, title, status, deadline, greenActionAssigned,residentAssigned);
     }
 
+    public static void addTask(Task t){
+        tasksMap.put(t.getId(), t);
+        saveData();
+    }
+
+    private static void saveData() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+
+        boolean first = true;
+        for (Task t : tasksMap.values()) {
+            if (!first) sb.append(",");
+            first = false;
+
+            sb.append("{")
+                    .append("\"id\":").append(t.getId()).append(",")
+                    .append("\"title\":\"").append(escape(t.getTitle())).append("\",")
+                    .append("\"status\":\"").append(escape(t.getStatus())).append("\",")
+                    .append("\"deadline\":\"").append(escape(t.getDeadline())).append("\",")
+                    .append("\"greenActionAssigned\":").append(t.getGreenActionAssigned()).append(",")
+                    .append("\"residentAssigned\":").append(t.getResidentAssigned())
+                    .append("}");
+        }
+
+        sb.append("]");
+
+        try {
+            Files.createDirectories(dataPath.getParent());
+            Files.writeString(
+                    dataPath,
+                    sb.toString(),
+                    StandardCharsets.UTF_8,
+                    StandardOpenOption.CREATE,
+                    StandardOpenOption.TRUNCATE_EXISTING
+            );
+        } catch (IOException e) {
+            throw new RuntimeException("Error escribiendo " + dataPath, e);
+        }
+    }
+
+
+    private static String escape(String s) {
+        return s.replace("\"", "\\\"");
+    }
+
+    public static void removeById(int id) {
+        tasksMap.remove(id);
+        saveData();
+    }
+
+    public void updateTask(Task t) {
+        tasksMap.put(t.getId(), t);
+        saveData();
+    }
 }

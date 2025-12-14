@@ -23,7 +23,7 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <Button fx:id="saveButton" mnemonicParsing="false" onAction="#createGreenAction" prefHeight="26.0" prefWidth="80.0" text="Submit" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Button fx:id="saveButton" mnemonicParsing="false" onAction="#createTask" prefHeight="26.0" prefWidth="80.0" text="Submit" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#onCancel" prefHeight="26.0" prefWidth="80.0" text="Cancel" GridPane.rowIndex="1" />
          </children>
       </GridPane>
@@ -50,13 +50,13 @@
          </rowConstraints>
          <children>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Title:" wrappingWidth="88.4228515625" />
-            <TextField fx:id="newGreenActionTitle" GridPane.rowIndex="1" />
+            <TextField fx:id="newTaskTitle" GridPane.rowIndex="1" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Deadline:" wrappingWidth="88.4228515625" GridPane.rowIndex="4" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Status:" wrappingWidth="88.4228515625" GridPane.rowIndex="2" />
-            <ChoiceBox prefHeight="26.0" prefWidth="238.0" GridPane.rowIndex="3" />
-            <DatePicker prefHeight="26.0" prefWidth="225.0" GridPane.rowIndex="5" />
-            <ChoiceBox prefHeight="26.0" prefWidth="238.0" GridPane.rowIndex="7" />
-            <ChoiceBox prefHeight="26.0" prefWidth="238.0" GridPane.rowIndex="9" />
+            <ChoiceBox fx:id="newStatusChoiceBox" prefHeight="26.0" prefWidth="238.0" GridPane.rowIndex="3" />
+            <DatePicker fx:id="newTaskDeadline" prefHeight="26.0" prefWidth="225.0" GridPane.rowIndex="5" />
+            <ChoiceBox fx:id="newGreenActionChoiceBox" prefHeight="26.0" prefWidth="238.0" GridPane.rowIndex="7" />
+            <ChoiceBox fx:id="newResidentChoiceBox" prefHeight="26.0" prefWidth="238.0" GridPane.rowIndex="9" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Green action:" wrappingWidth="88.4228515625" GridPane.rowIndex="6" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Resident:" wrappingWidth="88.4228515625" GridPane.rowIndex="8" />
          </children>

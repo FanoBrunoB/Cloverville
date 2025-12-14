@@ -2,10 +2,13 @@ package com.example.cloverville.Dashboard;
 
 import com.example.cloverville.GreenAction.GreenAction;
 import com.example.cloverville.GreenAction.GreenActionService;
+import com.example.cloverville.Product.Product;
+import com.example.cloverville.Product.ProductService;
 import com.example.cloverville.Resident.Resident;
 import com.example.cloverville.Resident.ResidentService;
 import com.example.cloverville.Task.Task;
 import com.example.cloverville.Task.TaskService;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -22,6 +25,8 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.SVGPath;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+
+import java.util.Objects;
 
 public class DashboardController {
 
@@ -79,9 +84,21 @@ public class DashboardController {
     @FXML
     private TableColumn<Task, String> deadlineColumn;
     @FXML
-    private TableColumn<Task, Integer> greenActionColumn;
+    private TableColumn<Task, String> greenActionColumn;
     @FXML
-    private TableColumn<Task, Integer> residentColumn;
+    private TableColumn<Task, String> residentColumn;
+
+    // Products table
+    @FXML
+    private TableView<Product> productsTable;
+    @FXML
+    private TableColumn<Product, String> namePColumn;
+    @FXML
+    private TableColumn<Product, String> descriptionPColumn;
+    @FXML
+    private TableColumn<Product, Integer> pricePColumn;
+    @FXML
+    private TableColumn<Product, Integer> stockPColumn;
 
     private Integer selectedTab = 1;
 
@@ -95,9 +112,11 @@ public class DashboardController {
     private final ResidentService residentService = new ResidentService();
     private final GreenActionService greenActionService = new GreenActionService();
     private final TaskService taskService = new TaskService();
+    private final ProductService productService = new ProductService();
     private final ObservableList<Resident> residents = FXCollections.observableArrayList();
     private final ObservableList<GreenAction> greenActions = FXCollections.observableArrayList();
     private final ObservableList<Task> tasks = FXCollections.observableArrayList();
+    private final ObservableList<Product> products = FXCollections.observableArrayList();
 
     @FXML
     public void initialize() {
@@ -115,8 +134,30 @@ public class DashboardController {
         titleTColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
         statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
         deadlineColumn.setCellValueFactory(new PropertyValueFactory<>("deadline"));
-        greenActionColumn.setCellValueFactory(new PropertyValueFactory<>("greenActionAssigned"));
-        residentColumn.setCellValueFactory(new PropertyValueFactory<>("residentAssigned"));
+        greenActionColumn.setCellValueFactory(cellData -> {
+            Task task = cellData.getValue();
+            int gaId = task.getGreenActionAssigned(); // id associated
+
+            GreenAction ga = greenActionService.getById(gaId);
+
+            String title = (ga != null) ? ga.getTitle() : "—";
+            return new SimpleStringProperty(title); // title associated to that id
+        });
+
+        residentColumn.setCellValueFactory(cellData -> {
+            Task task = cellData.getValue();
+            int rId = task.getResidentAssigned(); // id associated
+
+            Resident r = residentService.getById(rId);
+
+            String name = (r != null) ? r.getName() : "—";
+            return new SimpleStringProperty(name); // name associated to that id
+        });
+
+        namePColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        descriptionPColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
+        pricePColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
+        stockPColumn.setCellValueFactory(new PropertyValueFactory<>("stock"));
 
         refreshTables();
     }
@@ -138,6 +179,7 @@ public class DashboardController {
         residentsTable.setVisible(false);
         greenActionsTable.setVisible(false);
         tasksTable.setVisible(false);
+        productsTable.setVisible(false);
 
         switch (tab) {
             case RESIDENTS -> {
@@ -177,6 +219,8 @@ public class DashboardController {
                 greenActionsTab.getStyleClass().add("inactive-tab");
                 tasksTab.getStyleClass().add("inactive-tab");
 
+                productsTable.setVisible(true);
+                selectedTab = 4;
                 showActions = false; // hide action buttons
             }
         }
@@ -213,10 +257,12 @@ public class DashboardController {
         residents.setAll(residentService.getResidentMap().values());
         greenActions.setAll(greenActionService.getGreenActionsMap().values());
         tasks.setAll(taskService.getTasksMap().values());
+        products.setAll(productService.getProductsMap().values());
 
         residentsTable.setItems(residents);
         greenActionsTable.setItems(greenActions);
         tasksTable.setItems(tasks);
+        productsTable.setItems(products);
     }
 
     @FXML
@@ -249,18 +295,21 @@ public class DashboardController {
             FormController controller = loader.getController();
             controller.setOnSaveCallback(this::refreshTables);
 
+            if (selectedTab == 3) {
+                controller.setResidentService(residentService);
+                controller.setGreenActionService(greenActionService);
+            }
+
             Stage popup = new Stage();
 
             Scene scene;
-
-            if (selectedTab == 3){
+            if (selectedTab == 3) {
                 scene = new Scene(popupRoot, 390, 425);
             } else {
                 scene = new Scene(popupRoot, 390, 295);
             }
 
             popup.setScene(scene);
-
             popup.show();
 
         } catch (Exception e) {
@@ -308,7 +357,7 @@ public class DashboardController {
 
             FXMLLoader loader;
 
-            switch (selectedTab){
+            switch (selectedTab) {
 
                 case 2 -> {
                     loader = new FXMLLoader(
@@ -322,10 +371,11 @@ public class DashboardController {
                     );
                 }
 
-
-                default -> loader = new FXMLLoader(
-                        getClass().getResource("/com/example/cloverville/Dashboard/EditResidentForm.fxml")
-                );
+                default -> {
+                    loader = new FXMLLoader(
+                            getClass().getResource("/com/example/cloverville/Dashboard/EditResidentForm.fxml")
+                    );
+                }
             }
 
             Parent popupRoot = loader.load();
@@ -334,14 +384,26 @@ public class DashboardController {
 
             switch (selectedTab) {
                 case 2 -> controller.setGreenAction(selectedGreenAction, greenActionService);
-                case 3 -> System.out.println();
-                default -> controller.setResident(selectedResident, residentService);
+                case 3 -> {
+                    if(Objects.equals(selectedTask.getStatus(), "Completed")){
+                        new Alert(Alert.AlertType.ERROR, "You can not edit a completed task").showAndWait();
+                        return;
+                    }
+                    controller.setTask(selectedTask, taskService, greenActionService, residentService);
+                    controller.setResidentService(residentService);
+                    controller.setGreenActionService(greenActionService);
+                }
+                default -> {
+                    controller.setResident(selectedResident, residentService);
+                    controller.setProductService(productService);
+                }
             }
+
 
             Stage popup = new Stage();
 
             Scene scene;
-            if (selectedTab == 3){
+            if (selectedTab == 3) {
                 scene = new Scene(popupRoot, 390, 425);
             } else {
                 scene = new Scene(popupRoot, 390, 295);

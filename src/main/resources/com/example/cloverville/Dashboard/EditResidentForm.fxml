@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -22,7 +23,7 @@
         </rowConstraints>
          <children>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Available points:" wrappingWidth="88.4228515625" />
-            <Text fx:id="residentPoints" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="48.53125" GridPane.columnIndex="1" />
+            <Text fx:id="residentPoints" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="96.53125" GridPane.columnIndex="1" />
          </children>
       </GridPane>
       <GridPane layoutX="95.0" layoutY="157.0" prefWidth="200.0">
@@ -34,8 +35,8 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <TextField />
-            <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="80.0" text="Deduce" GridPane.columnIndex="1" />
+            <Button mnemonicParsing="false" onAction="#onDeduce" prefHeight="26.0" prefWidth="80.0" text="Deduce" GridPane.columnIndex="1" />
+            <ChoiceBox fx:id="productsChoiceBox" prefWidth="150.0" />
          </children>
       </GridPane>
       <GridPane layoutX="95.0" layoutY="172.0" prefHeight="30.0" prefWidth="200.0">
@@ -43,7 +44,8 @@
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
         <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
       </GridPane>
       <GridPane layoutX="95.0" layoutY="221.0" prefWidth="200.0">
@@ -79,7 +81,7 @@
             <TextField fx:id="residentFullName" GridPane.rowIndex="1" />
          </children>
       </GridPane>
-      <SVGPath fx:id="deleteButton" content="M0 15L13 3L16.25 6L3.25 18H0V15ZM14.0833 2L16.25 0L19.5 3L17.3323 5.001L14.0833 2Z" fill="#16653e" layoutX="366.0" layoutY="5.0" onMouseClicked="#onEditItem" style="-fx-scale-x: 0.8; -fx-scale-y: 0.8;" />
+      <SVGPath fx:id="deleteButton" content="M6 8v16c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V8H6zM24 4h-6c0-.6-.4-1-1-1h-4c-.6 0-1 .4-1 1H6C5.4 4 5 4.4 5 5s.4 1 1 1h18c.6 0 1-.4 1-1S24.6 4 24 4z" fill="#16653e" layoutX="362.0" onMouseClicked="#onDelete" style="-fx-scale-x: 0.8; -fx-scale-y: 0.8;" />
    </children>
 
 </AnchorPane>
