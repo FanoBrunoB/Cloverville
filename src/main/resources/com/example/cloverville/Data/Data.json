@@ -1,1 +1,6 @@
-[{"id":1,"name":"Angel","points":120},{"id":2,"name":"Estefano","points":340},{"id":3,"name":"Damian Bobeica","points":580},{"id":4,"name":"juan","points":0}]
+[
+  { "id": 1, "name": "Angel", "points": 1200 },
+  { "id": 2, "name": "Estefano", "points": 340 },
+  { "id": 3, "name": "Damian Bobeica", "points": 580 },
+  { "id": 4, "name": "juan", "points": 0 }
+]
