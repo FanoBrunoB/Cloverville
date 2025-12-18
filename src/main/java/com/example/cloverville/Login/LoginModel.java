@@ -8,7 +8,7 @@ public class LoginModel {
 
     public boolean login(String username, String password)
     {
-        String usernameCredentials = "green bob";
+        String usernameCredentials = "admin";
         if(!(usernameCredentials.equals(username)))
             return false;
         String passwordCredentials = "admin";
